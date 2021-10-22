@@ -1,0 +1,4 @@
+#!/bin/sh
+java -jar -Dspring.profiles.active=dev \
+-Xms64m -Xmx128m -Xverify:none -XX:+UnlockExperimentalVMOptions -XX:+UseZGC -XX:TieredStopAtLevel=1 \
+target/urlsbatch-0.0.1-SNAPSHOT.jar

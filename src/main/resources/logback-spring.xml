@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<appender name="CONSOLE"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<charset>utf-8</charset>
+			<pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} %magenta([%thread])
+				%highlight(%-5level) %logger{36}.%M - %msg%n</pattern>
+		</encoder>
+	</appender>
+	<appender name="FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>logFile.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<maxHistory>90</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<charset>utf-8</charset>
+			<pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} %magenta([%thread])
+				%highlight(%-5level) %logger{36}.%M - %msg%n</pattern>
+		</encoder>
+	</appender>
+	<root level="info">
+		<appender-ref ref="CONSOLE" />
+	</root>
+	<!-- <include resource="logback-${spring.profiles.active}.xml"/> -->
+	<springProfile name="dev">
+		<logger
+			name="logging.level.org.springframework.aop.interceptor"
+			additivity="false" 
+			level="trace">
+			<appender-ref ref="CONSOLE" />
+		</logger>
+		<logger 
+			name="fr.marcdev.urlsbatch" 
+			additivity="false"
+			level="trace">
+			<appender-ref ref="CONSOLE" />
+		</logger>
+	</springProfile>
+	<springProfile name="prod">
+		<root level="info">
+			<appender-ref ref="FILE" />
+		</root>
+		<logger 
+			name="fr.marcdev.urlsbatch" 
+			additivity="false"
+			level="info">
+			<appender-ref ref="FILE" />
+			<appender-ref ref="CONSOLE" />
+		</logger>
+	</springProfile>
+</configuration>
